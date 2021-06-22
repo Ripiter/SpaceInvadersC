@@ -1,6 +1,6 @@
 #pragma once
-#include "Utility/Vector2.h"
-#include "Utility/List.h"
+#include "../Utility/Vector2.h"
+#include "../Utility/List.h"
 
 typedef struct {
 	int hp;

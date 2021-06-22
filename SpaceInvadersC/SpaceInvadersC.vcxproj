@@ -139,13 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Enemy.c" />
+    <ClCompile Include="Entities\Enemy.c" />
+    <ClCompile Include="Entities\Player.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="Map.c" />
+    <ClCompile Include="GameManager.c" />
+    <ClCompile Include="Utility\Input.c" />
     <ClCompile Include="Utility\List.c" />
     <ClCompile Include="Utility\Vector2.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Entities\Enemy.h" />
+    <ClInclude Include="Entities\Player.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Utility\Input.h" />
     <ClInclude Include="Utility\List.h" />
     <ClInclude Include="Utility\Vector2.h" />
   </ItemGroup>
