@@ -1,6 +1,9 @@
 #ifndef __LIST_H
 #define __LIST_H
 
+
+#include <stdlib.h>
+
 // a common function used to free malloc'd objects
 typedef void (*freeFunction)(void*);
 

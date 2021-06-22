@@ -1,46 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "Utility/Vector2.h"
-#include "Utility/List.h"
+#include "Enemy.h"
 
-typedef struct {
-	int hp;
-	Vector2_t* pos;
-}Enemy_t;
-
-bool iterate_enemy_dmg(void* data) {
-	Enemy_t* enemy = data;
-	enemy->hp -= 30;
-	return TRUE;
-}
-
-bool iterate_enemy_print(void* data) {
-	Enemy_t* enemy = data;
-	printf("HP: %d\n", enemy->hp);
-	return TRUE;
-}
-
-
-Enemy_t* init_enemy(int _hp, int _x, int _y) {
-	Enemy_t* enemy = malloc(sizeof(Enemy_t));
-
-	if (enemy == NULL)
-		return NULL;
-
-	enemy->hp = _hp;
-	enemy->pos = init_vector(_x, _y);
-
-	return enemy;
-}
-
-void free_enemy_data(void* data)
-{
-	Enemy_t* enemy = data;
-
-	free(enemy->pos);
-
-	free(data);
-}
 
 
 int main() {

@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Utility\List.c" />
     <ClCompile Include="Utility\Vector2.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Utility\List.h" />
     <ClInclude Include="Utility\Vector2.h" />
   </ItemGroup>
