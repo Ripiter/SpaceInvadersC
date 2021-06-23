@@ -1,13 +1,30 @@
 #include "Utility/Vector2.h"
 #include "Entities/Enemy.h"
 #include "Map.h"
+#include "Entities/Player.h"
+#include "GameManager.h"
 
-Map_t* map;
 int main() {
-	map = malloc(sizeof(Map_t));
+	GameManager_t* game = malloc(sizeof(GameManager_t));
+	init_game(game);
 
-	init_map(map);
-	print_map(map);
+	//init_map(map);
+	//print_map(map);
+	int esc = 1;
+	while (esc) {
+
+		update_input();
+
+		if (get_button_down(ESCAPE)) {
+			esc = 0;
+			printf("escape");
+		}
+
+		game_update(game);
+	}
+
+	destroy_game(game);
+
 
 	return 0;
 }

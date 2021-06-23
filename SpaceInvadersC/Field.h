@@ -4,4 +4,5 @@
 typedef struct Field{
 	Vector2_t fieldPos;
 	char fieldChar;
+	int taken;
 }Field_t;
