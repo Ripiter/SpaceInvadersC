@@ -49,6 +49,6 @@ void take_place_map(Map_t* _map, Vector2_t* pos, int _taken)
 void place_on_map(Map_t* _map, Vector2_t* pos, char _char)
 {
 	_map->map[pos->x][pos->y].fieldChar = _char;
-	_map->map[pos->x][pos->y].taken = 1;
+	//_map->map[pos->x][pos->y].taken = 1;
 
 }

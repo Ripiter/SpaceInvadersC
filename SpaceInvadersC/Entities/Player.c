@@ -51,6 +51,7 @@ int player_update(Player_t* player)
 
 	if (update > 0) {
 		place_on_map(player->map, player->playerPos, player->playerChar);
+		take_place_map(player->map, player->playerPos, 1);
 	}
 
 	return update;

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entities\Bullet.c" />
     <ClCompile Include="Entities\Enemy.c" />
     <ClCompile Include="Entities\Player.c" />
     <ClCompile Include="main.c" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Utility\Vector2.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Bullet.h" />
     <ClInclude Include="Entities\Enemy.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Field.h" />
