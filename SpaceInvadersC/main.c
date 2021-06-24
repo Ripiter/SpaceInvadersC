@@ -11,7 +11,7 @@ int main() {
 	//init_map(map);
 	//print_map(map);
 	int esc = 1;
-	while (esc) {
+	while (esc && game->gameOver == 0) {
 
 		update_input();
 

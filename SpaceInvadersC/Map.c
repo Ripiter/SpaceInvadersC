@@ -45,3 +45,11 @@ void place_on_map(Map_t* _map, Vector2_t* pos, char _char)
 	_map->map[pos->x][pos->y].fieldChar = _char;
 
 }
+
+int out_of_bounds(int _x, int _y)
+{
+	if (_x >= 0 && _x < MAP_WIDTH && _y >= 0 && _y < MAP_HEIGHT)
+		return 0;
+
+	return 1;
+}

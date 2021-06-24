@@ -17,3 +17,9 @@ Vector2_t* init_vector(int _x, int _y)
 	return v;
 }
 
+int vector_equals(Vector2_t* _vec1, Vector2_t* _vec2) {
+	if (_vec1->x == _vec2->x && _vec1->y == _vec2->y)
+		return 1;
+
+	return 0;
+}

@@ -21,4 +21,5 @@ void init_game(GameManager_t* gameManager);
 void init_enemies(GameManager_t* game);
 void place_entities(GameManager_t* game);
 void game_update(GameManager_t* gameManager);
+void check_for_collision(GameManager_t* game);
 void destroy_game(GameManager_t* gameManager);

@@ -16,3 +16,5 @@ Map_t* init_map();
 void print_map(Map_t* _map);
 void clean_map(Map_t* _map);
 void place_on_map(Map_t* _map, Vector2_t* pos, char _char);
+
+int out_of_bounds(int _x, int _y);

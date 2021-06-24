@@ -16,13 +16,18 @@ Player_t* init_player(int _x, int _y)
 void destroy_player(Player_t* player)
 {
 	list_destroy(player->bullets);
+	
 	free(player->playerPos);
 	free(player);
+
+	player->playerPos = NULL;
+	player = NULL;
 }
 
 int update = 0;
 int player_update(Player_t* player)
 {
+	update = 0;
 	if (get_button_down(LEFT)) {
 		if (player->playerPos->y > 0) {
 			player->playerPos->y -= 1;
