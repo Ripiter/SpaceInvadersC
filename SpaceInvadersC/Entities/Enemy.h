@@ -9,8 +9,6 @@ typedef struct {
 }Enemy_t;
 
 Enemy_t* init_enemy(int _hp, int _x, int _y);
-void Enemy_update(Enemy_t* player);
-
 
 void free_enemy_data(void* data);
 bool iterate_enemy_dmg(void* data);

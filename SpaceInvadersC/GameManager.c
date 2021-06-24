@@ -28,31 +28,26 @@ void game_update(GameManager_t* gameManager)
 	gameManager->updateMap += player_update(gameManager->player);
 
 	// this is for testing in later phase this will be removed
-	if (get_button_down(Q)) {
-		list_for_each(gameManager->player->bullets, iterate_bullet_move);
-		check_for_collision(gameManager);
+	if (get_button_down(Q_BTN)) {
 		list_for_each(gameManager->enemies, iterate_enemy_move);
 		gameManager->updateMap += 1;
 	}
+	list_for_each(gameManager->player->bullets, iterate_bullet_move);
+	check_for_collision(gameManager);
 
-	if (gameManager->updateMap != 0) {
-		check_for_collision(gameManager);
-		clean_map(gameManager->map);
-		place_entities(gameManager);
-		clear();
+	//if (gameManager->updateMap != 0) {
+	check_for_collision(gameManager);
+	clean_map(gameManager->map);
+	place_entities(gameManager);
+	clear();
 
-		print_map(gameManager->map);
-		gameManager->updateMap = 0;
-	}
+	print_map(gameManager->map);
+	gameManager->updateMap = 0;
+	//}
 }
 
 void check_for_collision(GameManager_t* game)
 {
-	//if (out_of_bounds(game->player->playerPos->x, game->player->playerPos->y) == 1) {
-	//	game->gameOver = 1;
-	//	return;
-	//}
-
 	for (int enemyIndex = 0; enemyIndex < list_size(game->enemies); enemyIndex++)
 	{
 		Enemy_t* e = list_at(game->enemies, enemyIndex);
@@ -62,25 +57,28 @@ void check_for_collision(GameManager_t* game)
 
 			if (e != NULL && b != NULL) {
 
-				if (vector_equals(e->pos, b->bulletPos) == 1) {
+				if (vector_equals(e->pos, b->bulletPos) == 1) {	
 					list_remove_at(game->enemies, enemyIndex);
 					list_remove_at(game->player->bullets, bulletIndex);
 				}
 			}
-
 			// check if the bullet got to the end
 			if (b != NULL) {
-				if (b->bulletPos->x == 0) {
-					list_remove_at(game->player->bullets, bulletIndex);
+				if (b->bulletPos != NULL) {
+					if (b->bulletPos->x == 0) {
+						list_remove_at(game->player->bullets, bulletIndex);
+					}
 				}
 			}
 		}
 
 		// check if the enemy got to the end 
 		if (e != NULL) {
-			if (e->pos->x == MAP_HEIGHT) {
-				list_remove_at(game->enemies, enemyIndex);
-				game->gameOver = 1;
+			if (e->pos != NULL) {
+				if (e->pos->x == MAP_HEIGHT) {
+					list_remove_at(game->enemies, enemyIndex);
+					game->gameOver = 1;
+				}
 			}
 		}
 	}
@@ -118,19 +116,20 @@ void init_enemies(GameManager_t* game) {
 	   XX
 	*/
 
-	list_append(game->enemies, init_enemy(1, 0, 3));
-	list_append(game->enemies, init_enemy(1, 0, 4));
-	list_append(game->enemies, init_enemy(1, 0, 5));
-	list_append(game->enemies, init_enemy(1, 0, 6));
-	list_append(game->enemies, init_enemy(1, 0, 7));
-	list_append(game->enemies, init_enemy(1, 0, 8));
+	list_prepend(game->enemies, init_enemy(1, 1, 3));
+	
+	list_prepend(game->enemies, init_enemy(1, 1, 4));
+	list_prepend(game->enemies, init_enemy(1, 1, 5));
+	list_prepend(game->enemies, init_enemy(1, 1, 6));
+	list_prepend(game->enemies, init_enemy(1, 1, 7));
+	list_prepend(game->enemies, init_enemy(1, 1, 8));
 
 
-	list_append(game->enemies, init_enemy(1, 1, 4));
-	list_append(game->enemies, init_enemy(1, 1, 5));
-	list_append(game->enemies, init_enemy(1, 1, 6));
-	list_append(game->enemies, init_enemy(1, 1, 7));
+	list_prepend(game->enemies, init_enemy(1, 2, 4));
+	list_prepend(game->enemies, init_enemy(1, 2, 5));
+	list_prepend(game->enemies, init_enemy(1, 2, 6));
+	list_prepend(game->enemies, init_enemy(1, 2, 7));
 
-	list_append(game->enemies, init_enemy(1, 2, 5));
-	list_append(game->enemies, init_enemy(1, 2, 6));
+	list_prepend(game->enemies, init_enemy(1, 3, 5));
+	list_prepend(game->enemies, init_enemy(1, 3, 6));
 }

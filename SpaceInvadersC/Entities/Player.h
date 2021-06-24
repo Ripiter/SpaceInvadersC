@@ -2,6 +2,7 @@
 #include "../Utility/Vector2.h"
 #include "../Utility/Input.h"
 #include "../Utility/List.h"
+#include "../Map.h"
 #include "Bullet.h"
 #include <stdlib.h>
 

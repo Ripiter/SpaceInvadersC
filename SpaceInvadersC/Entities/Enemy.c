@@ -14,18 +14,12 @@ Enemy_t* init_enemy(int _hp, int _x, int _y)
 	return enemy;
 }
 
-void Enemy_update(Enemy_t* player)
-{
-}
-
-
-
 void free_enemy_data(void* data)
 {
 	Enemy_t* enemy = data;
 
 	free(enemy->pos);
-	free((Enemy_t*)data);
+	free(enemy);
 
 	enemy->pos = NULL;
 	enemy = NULL;
@@ -49,6 +43,11 @@ bool iterate_enemy_move(void* data)
 {
 	Enemy_t* enemy = data;
 	enemy->pos->x++;
+
+	// TODO: add movement for going left to right
+	// and after a couple of ticks move 1 space forward
+
+	// add a random chance to shoot a bullet
 
 	return TRUE;
 }

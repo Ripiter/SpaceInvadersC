@@ -16,7 +16,7 @@ Player_t* init_player(int _x, int _y)
 void destroy_player(Player_t* player)
 {
 	list_destroy(player->bullets);
-	
+
 	free(player->playerPos);
 	free(player);
 
@@ -29,6 +29,7 @@ int player_update(Player_t* player)
 {
 	update = 0;
 	if (get_button_down(LEFT)) {
+
 		if (player->playerPos->y > 0) {
 			player->playerPos->y -= 1;
 			update = 1;
@@ -36,12 +37,14 @@ int player_update(Player_t* player)
 		//printf("down\n");
 	}
 	if (get_button_down(RIGHT)) {
-		player->playerPos->y += 1;
+		if (player->playerPos->y + 1 < MAP_WIDTH)
+			player->playerPos->y += 1;
 		//printf("Up\n");
 		update = 1;
 	}
 	if (get_button_down(DOWN)) {
-		player->playerPos->x += 1;
+		if (player->playerPos->x + 1 < MAP_HEIGHT)
+			player->playerPos->x += 1;
 		//printf("right\n");
 		update = 1;
 	}
@@ -53,8 +56,8 @@ int player_update(Player_t* player)
 		}
 	}
 
-	if (get_button_down(E)) {
-		list_append(player->bullets, init_bullet(player->playerPos->x - 1, player->playerPos->y));
+	if (get_button_down(E_BTN)) {
+		list_prepend(player->bullets, init_bullet(player->playerPos->x - 1, player->playerPos->y));
 		update = 1;
 	}
 

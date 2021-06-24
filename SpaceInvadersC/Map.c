@@ -43,7 +43,6 @@ void clean_map(Map_t* _map)
 void place_on_map(Map_t* _map, Vector2_t* pos, char _char)
 {
 	_map->map[pos->x][pos->y].fieldChar = _char;
-
 }
 
 int out_of_bounds(int _x, int _y)

@@ -4,14 +4,60 @@
 #include "Entities/Player.h"
 #include "GameManager.h"
 
+#include <Windows.h>
+#include <time.h>
+
 int main() {
+
 	GameManager_t* game = malloc(sizeof(GameManager_t));
 	init_game(game);
+	if (game == NULL)
+		return -1;
 
-	//init_map(map);
-	//print_map(map);
+	time_t t = time(NULL);
+	//struct tm _nextLoop = *localtime(&t)->tm_sec;
+
+
+	
+	const double MS_PER_FRAME = 60;
+
 	int esc = 1;
 	while (esc && game->gameOver == 0) {
+		double start = localtime(&t)->tm_sec;
+		
+		update_input();
+
+		if (get_button_down(ESCAPE)) {
+			esc = 0;
+			printf("escape");
+		}
+
+		game_update(game);
+	
+		Sleep(start + MS_PER_FRAME + localtime(&t)->tm_sec);
+	}
+
+	
+
+
+
+
+
+
+
+
+
+	/*
+	GameManager_t* game = malloc(sizeof(GameManager_t));
+	init_game(game);
+	if (game == NULL)
+		return -1;
+
+	int esc = 1;
+	while (esc && game->gameOver == 0) {
+
+		// create some kind of loop
+		// with tick system 
 
 		update_input();
 
@@ -25,7 +71,7 @@ int main() {
 
 	destroy_game(game);
 
-
+	*/
 	return 0;
 }
 

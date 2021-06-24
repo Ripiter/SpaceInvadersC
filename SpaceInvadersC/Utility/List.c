@@ -24,9 +24,10 @@ void list_destroy(list* list)
 			list->freeFn(current->data);
 		else
 			free(current->data);
-		
+
 
 		free(current);
+		current = NULL;
 	}
 }
 
@@ -50,7 +51,7 @@ void list_prepend(list* list, void* element)
 void list_append(list* list, void* element)
 {
 	listNode* node = malloc(sizeof(listNode));
-	node->data = malloc(list->elementSize);
+	node->data = malloc(sizeof(element));
 	node->next = NULL;
 
 	node->data = element;
@@ -103,7 +104,7 @@ void list_tail(list* list, void* element)
 
 void* list_at(list* list, int at) {
 
-	assert(list->head != NULL);
+	//assert(list->head != NULL);
 
 	void* data = NULL;
 	listNode* node = list->head;
@@ -125,13 +126,17 @@ void list_remove_at(list* list, int at)
 {
 	assert(list->head != NULL);
 
-	if (at == 0) {
-		list_head(list, NULL, TRUE);
-		return;
-	}
+	//if (at == 0) {
+	//	list_head(list, NULL, TRUE);
+	//	return;
+	//}
 
 	listNode* node = list->head;
-	listNode* nodeLag = list->head;
+	listNode* nodeLag = node;
+	listNode* next = node->next;
+	//nodeLag = node;
+	//nodeLag->data = node->data;
+	//nodeLag->next = node->next;
 
 	int counter = 0;
 	bool done = FALSE;
@@ -139,17 +144,40 @@ void list_remove_at(list* list, int at)
 	while (node != NULL && done == FALSE) {
 		if (counter == at) {
 
-			nodeLag->next = node->next;
+			next = node->next;
+
 			list->logicalLength--;
 
-			free(node->data);
-			free(node);
+			if (list->freeFn)
+				list->freeFn(node->data);
+			else
+				free(node->data);
 
+			//free(node->data);
+			//free(node->data);
+			free(node);
+			//node->data = NULL;
+			node = NULL;
 			done = TRUE;
+
+			if (list->head->data == 0xdddddddd) {
+				if (next != NULL) {
+					list->head = next;
+				}
+				else {
+					list->head = NULL;
+				}
+			}
+			else {
+				nodeLag->next = next;
+			}
 		}
-		nodeLag = node;
-		node = node->next;
-		counter++;
+		else {
+
+			nodeLag = node;
+			node = node->next;
+			counter++;
+		}
 	}
 }
 
@@ -166,9 +194,9 @@ void free_list_data(void* data)
 
 
 
-	/*
-	
-	void list_with_ints()
+/*
+
+void list_with_ints()
 {
 	int numbers = 10;
 	printf("Generating list with the first %d positive numbers...\n", numbers);
@@ -183,7 +211,7 @@ void free_list_data(void* data)
 
 	list_for_each(list, iterate_int);
 
-	
+
 	list_destroy(list);
 	printf("Successfully freed %d numbers...\n", numbers);
 
@@ -235,7 +263,7 @@ void list_with_vectors()
 	list_remove_at(list, 1);
 	printf("Removed\n");
 	list_for_each(list, iterate_vector);
-	
+
 	list_destroy(list);
 	printf("Successfully freed %d vectors...\n", numNames);
 }
