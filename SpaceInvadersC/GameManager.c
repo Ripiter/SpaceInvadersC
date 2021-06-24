@@ -9,18 +9,16 @@ void init_game(GameManager_t* gameManager)
 
 	gameManager->map = malloc(sizeof(Map_t));
 	gameManager->enemies = malloc(sizeof(list));
-	gameManager->bullets = malloc(sizeof(list));
+
 
 	init_enemies(gameManager);
-	list_new(gameManager->bullets, sizeof(Bullet_t), free_bullet_data);
 
 	gameManager->map = init_map();
 	gameManager->player = init_player(MAP_HEIGHT - 1, MAP_WIDTH / 2);
 
-	gameManager->player->map = gameManager->map;
 
 	place_on_map(gameManager->map, gameManager->player->playerPos, gameManager->player->playerChar);
-	take_place_map(gameManager->map, gameManager->player, 1);
+
 
 	place_entities(gameManager);
 
@@ -59,28 +57,26 @@ void place_entities(GameManager_t* game)
 		Enemy_t* e = list_at(game->enemies, i);
 		place_on_map(game->map, e->pos, e->enemyChar);
 	}
-	for (int i = 0; i < list_size(game->bullets); i++)
+	for (int i = 0; i < list_size(game->player->bullets); i++)
 	{
-		Bullet_t* b = list_at(game->bullets, i);
+		Bullet_t* b = list_at(game->player->bullets, i);
 		place_on_map(game->map, b->bulletPos, b->bulletChar);
 	}
+
+	place_on_map(game->map, game->player->playerPos, game->player->playerChar);
 }
 
 void game_update(GameManager_t* gameManager)
 {
+	// this is for testing in later phase this will be removed
 	gameManager->updateMap += player_update(gameManager->player);
 
+	// this is for testing in later phase this will be removed
 	if (get_button_down(Q)) {
 		list_for_each(gameManager->enemies, iterate_enemy_move);
-		list_for_each(gameManager->bullets, iterate_bullet_move);
+		list_for_each(gameManager->player->bullets, iterate_bullet_move);
 		gameManager->updateMap += 1;
 	}
-
-	if (get_button_down(E)) {
-		list_append(gameManager->bullets, init_bullet(gameManager->player->playerPos->x - 2, gameManager->player->playerPos->y));
-		gameManager->updateMap += 1;
-	}
-
 
 
 	if (gameManager->updateMap != 0) {
@@ -97,7 +93,6 @@ void destroy_game(GameManager_t* gameManager)
 {
 	free(gameManager->map);
 	list_destroy(gameManager->enemies);
-	list_destroy(gameManager->bullets);
 	destroy_player(gameManager->player);
 	free(gameManager);
 }

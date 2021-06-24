@@ -1,8 +1,9 @@
 #pragma once
 #include "../Utility/Vector2.h"
-#include <stdlib.h>
 #include "../Utility/Input.h"
-#include "../Map.h"
+#include "../Utility/List.h"
+#include "Bullet.h"
+#include <stdlib.h>
 
 #define LEFT 75
 #define RIGHT 77 
@@ -12,7 +13,7 @@
 typedef struct Player {
 	Vector2_t* playerPos;
 	char playerChar;
-	Map_t* map;
+	list* bullets;
 }Player_t;
 
 

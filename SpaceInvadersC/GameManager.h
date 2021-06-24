@@ -13,7 +13,6 @@ typedef struct GameManager {
 	Map_t* map;
 	list* enemies;
 	Player_t* player;
-	list* bullets;
 	int updateMap;
 }GameManager_t;
 
