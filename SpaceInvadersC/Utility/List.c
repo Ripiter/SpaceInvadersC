@@ -1,7 +1,5 @@
-
 #include <string.h>
 #include <assert.h>
-
 #include "list.h"
 
 void list_new(list* list, int elementSize, freeFunction freeFn)
@@ -90,7 +88,9 @@ void list_head(list* list, void* element, bool removeFromList)
 		list->head = node->next;
 		list->logicalLength--;
 
-		free(node->data);
+		if (list->freeFn)
+			list->freeFn(node->data);
+		//free(node->data);
 		free(node);
 	}
 }
@@ -103,6 +103,11 @@ void list_tail(list* list, void* element)
 }
 
 void* list_at(list* list, int at) {
+
+
+	if (list->logicalLength <= at) {
+		at = at;
+	}
 
 	//assert(list->head != NULL);
 
@@ -126,17 +131,13 @@ void list_remove_at(list* list, int at)
 {
 	assert(list->head != NULL);
 
-	//if (at == 0) {
-	//	list_head(list, NULL, TRUE);
-	//	return;
-	//}
+	if (at == 0) {
+		list_head(list, NULL, TRUE);
+		return;
+	}
 
 	listNode* node = list->head;
-	listNode* nodeLag = node;
-	listNode* next = node->next;
-	//nodeLag = node;
-	//nodeLag->data = node->data;
-	//nodeLag->next = node->next;
+	listNode* nodeLag = list->head;
 
 	int counter = 0;
 	bool done = FALSE;
@@ -144,43 +145,21 @@ void list_remove_at(list* list, int at)
 	while (node != NULL && done == FALSE) {
 		if (counter == at) {
 
-			next = node->next;
-
+			nodeLag->next = node->next;
 			list->logicalLength--;
 
 			if (list->freeFn)
 				list->freeFn(node->data);
-			else
-				free(node->data);
 
-			//free(node->data);
-			//free(node->data);
 			free(node);
-			//node->data = NULL;
-			node = NULL;
+
 			done = TRUE;
-
-			if (list->head->data == 0xdddddddd) {
-				if (next != NULL) {
-					list->head = next;
-				}
-				else {
-					list->head = NULL;
-				}
-			}
-			else {
-				nodeLag->next = next;
-			}
 		}
-		else {
-
-			nodeLag = node;
-			node = node->next;
-			counter++;
-		}
+		nodeLag = node;
+		node = node->next;
+		counter++;
 	}
 }
-
 
 int list_size(list* list)
 {

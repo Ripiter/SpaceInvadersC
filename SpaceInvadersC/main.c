@@ -7,8 +7,9 @@
 #include <Windows.h>
 #include <time.h>
 
-int main() {
+#define GetTime() GetTickCount()
 
+int main() {
 	GameManager_t* game = malloc(sizeof(GameManager_t));
 	init_game(game);
 	if (game == NULL)
@@ -18,13 +19,15 @@ int main() {
 	//struct tm _nextLoop = *localtime(&t)->tm_sec;
 
 
-	
+
 	const double MS_PER_FRAME = 60;
 
 	int esc = 1;
+	unsigned int tick = 0;
+
 	while (esc && game->gameOver == 0) {
 		double start = localtime(&t)->tm_sec;
-		
+
 		update_input();
 
 		if (get_button_down(ESCAPE)) {
@@ -32,15 +35,11 @@ int main() {
 			printf("escape");
 		}
 
-		game_update(game);
-	
+		game_update(game, tick);
+
+		tick += 1;
 		Sleep(start + MS_PER_FRAME + localtime(&t)->tm_sec);
 	}
-
-	
-
-
-
 
 
 
@@ -57,7 +56,7 @@ int main() {
 	while (esc && game->gameOver == 0) {
 
 		// create some kind of loop
-		// with tick system 
+		// with tick system
 
 		update_input();
 

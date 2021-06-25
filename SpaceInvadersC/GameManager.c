@@ -22,18 +22,20 @@ void init_game(GameManager_t* gameManager)
 	print_map(gameManager->map);
 }
 
-void game_update(GameManager_t* gameManager)
+void game_update(GameManager_t* gameManager, unsigned int tick)
 {
-	// this is for testing in later phase this will be removed
 	gameManager->updateMap += player_update(gameManager->player);
+	// check if bullet was spawned on enemy
+	check_for_collision(gameManager);
 
-	// this is for testing in later phase this will be removed
-	if (get_button_down(Q_BTN)) {
+
+	// move enemy every 10 ticks
+	if (tick % 20 == 0) {
 		list_for_each(gameManager->enemies, iterate_enemy_move);
 		gameManager->updateMap += 1;
 	}
+
 	list_for_each(gameManager->player->bullets, iterate_bullet_move);
-	check_for_collision(gameManager);
 
 	//if (gameManager->updateMap != 0) {
 	check_for_collision(gameManager);
@@ -44,6 +46,7 @@ void game_update(GameManager_t* gameManager)
 	print_map(gameManager->map);
 	gameManager->updateMap = 0;
 	//}
+
 }
 
 void check_for_collision(GameManager_t* game)
@@ -51,23 +54,17 @@ void check_for_collision(GameManager_t* game)
 	for (int enemyIndex = 0; enemyIndex < list_size(game->enemies); enemyIndex++)
 	{
 		Enemy_t* e = list_at(game->enemies, enemyIndex);
+
 		for (int bulletIndex = 0; bulletIndex < list_size(game->player->bullets); bulletIndex++)
 		{
 			Bullet_t* b = list_at(game->player->bullets, bulletIndex);
 
 			if (e != NULL && b != NULL) {
 
-				if (vector_equals(e->pos, b->bulletPos) == 1) {	
+				if (vector_equals(e->pos, b->bulletPos) == 1) {
 					list_remove_at(game->enemies, enemyIndex);
 					list_remove_at(game->player->bullets, bulletIndex);
-				}
-			}
-			// check if the bullet got to the end
-			if (b != NULL) {
-				if (b->bulletPos != NULL) {
-					if (b->bulletPos->x == 0) {
-						list_remove_at(game->player->bullets, bulletIndex);
-					}
+					bulletIndex += list_size(game->player->bullets);
 				}
 			}
 		}
@@ -82,6 +79,22 @@ void check_for_collision(GameManager_t* game)
 			}
 		}
 	}
+
+	// check if the bullet go the the end 
+	// and remove it if it did
+	for (int i = 0; i < list_size(game->player->bullets); i++)
+	{
+		Bullet_t* b = list_at(game->player->bullets, i);
+		// check if the bullet got to the end
+		if (b != NULL) {
+			if (b->bulletPos != NULL) {
+				if (b->bulletPos->x == 0) {
+					list_remove_at(game->player->bullets, i);
+				}
+			}
+		}
+	}
+
 }
 
 void destroy_game(GameManager_t* gameManager)
@@ -117,7 +130,7 @@ void init_enemies(GameManager_t* game) {
 	*/
 
 	list_prepend(game->enemies, init_enemy(1, 1, 3));
-	
+
 	list_prepend(game->enemies, init_enemy(1, 1, 4));
 	list_prepend(game->enemies, init_enemy(1, 1, 5));
 	list_prepend(game->enemies, init_enemy(1, 1, 6));
