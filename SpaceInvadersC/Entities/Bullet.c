@@ -12,6 +12,17 @@ bool iterate_bullet_move(void* data)
 	return TRUE;
 }
 
+bool iterate_enemy_bullet_move(void* data)
+{
+	Bullet_t* bullet = data;
+
+	//if (out_of_bounds(bullet->bulletPos->x + 1, bullet->bulletPos->y) == 0) {
+		bullet->bulletPos->x++;
+	//}
+
+	return TRUE;
+}
+
 void free_bullet_data(void* data)
 {
 	Bullet_t* bullet = data;

@@ -38,9 +38,16 @@ int main() {
 		game_update(game, tick);
 
 		tick += 1;
+		check_game_over(game);
 		Sleep(start + MS_PER_FRAME + localtime(&t)->tm_sec);
 	}
-
+	clear();
+	if (game->gameOver == 2) {
+		printf("Game over, You won");
+	}
+	else {
+		printf("Game over, You lost");
+	}
 
 
 
@@ -67,10 +74,10 @@ int main() {
 
 		game_update(game);
 	}
+	*/
 
 	destroy_game(game);
 
-	*/
 	return 0;
 }
 

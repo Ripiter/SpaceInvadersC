@@ -9,4 +9,5 @@ typedef struct {
 
 bool iterate_bullet_move(void* data);
 void free_bullet_data(void* data);
+bool iterate_enemy_bullet_move(void* data);
 Bullet_t* init_bullet(int _x, int _y);
